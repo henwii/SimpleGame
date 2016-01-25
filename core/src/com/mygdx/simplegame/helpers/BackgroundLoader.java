@@ -45,13 +45,13 @@ public class BackgroundLoader {
 
     private void returnBackground() {
         if(bg1_x < -1920){
-            bg1_x = 1910;
+            bg1_x = 3830;
         }
         if(bg2_x < -1920){
-            bg2_x = 1910;
+            bg2_x = 3830;
         }
         if(bg3_x < -1920){
-            bg3_x = 1910;
+            bg3_x = 3830;
         }
         if(grass1_x < -1920){
             grass1_x = 1910;

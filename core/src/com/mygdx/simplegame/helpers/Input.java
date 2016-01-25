@@ -33,12 +33,9 @@ public class Input implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
         runner.count++;
         if(runner.count <=2){
             runner.jump();
-        }else {
-
         }
         return true;
     }

@@ -1,13 +1,9 @@
 package com.mygdx.simplegame.gameobjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.simplegame.helpers.Input;
-
-import javafx.scene.transform.Rotate;
 
 /**
  * Created by Besten on 2016-01-23.
@@ -16,23 +12,22 @@ public class Runner {
 
     public int x = 600;
     public int y = 800;
-    public int width = 150;
-    public int height = 150;
+    public int width = 25;
+    public int height = 130;
     public double vx = 0;
     public double vy = 0;
     public double gravity = -0.5;
     Texture RunnerTexture;
+
     public int count = 0;
 
-
-
     public Runner(){
-        RunnerTexture = new Texture(Gdx.files.internal("runner2.png"));
+        RunnerTexture = new Texture(Gdx.files.internal("runner4.png"));
     }
 
     public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
         batch.begin();
-        batch.draw(RunnerTexture, x - width/2, y - 15, width, height);
+        batch.draw(RunnerTexture, x, y, width, height);
         batch.end();
     }
 
