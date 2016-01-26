@@ -61,11 +61,18 @@ public class GameWorld {
             enemy.draw(batch);
         }
         drawScore(batch);
+        drawFPS(batch);
+    }
+
+    private void drawFPS(SpriteBatch batch) {
+        batch.begin();
+        font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 20, 1010);
+        batch.end();
     }
 
     private void drawScore(SpriteBatch batch) {
         batch.begin();
-        font.draw(batch, "Score:" + score + "/10 " , 200, 1000);
+        font.draw(batch, "Score:" + score + "/10 " , 20, 1060);
         if(score == maxScore){
             font.draw(batch,"YOU WON!",850,530);
         }
