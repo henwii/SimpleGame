@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Runner {
 
     public int x = 600;
-    public int y = 800;
+    public int y = 300;
     public int width = 25;
     public int height = 120;
     public double vx = 0;

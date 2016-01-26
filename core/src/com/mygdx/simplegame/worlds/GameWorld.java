@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.simplegame.gameobjects.Runner;
+import com.mygdx.simplegame.gameobjects.arraylists.Bullets;
 import com.mygdx.simplegame.gameobjects.arraylists.Enemies;
 import com.mygdx.simplegame.gameobjects.arraylists.Platforms;
 import com.mygdx.simplegame.gameobjects.arraylists.Coins;
 import com.mygdx.simplegame.helpers.BackgroundLoader;
 import com.mygdx.simplegame.helpers.Input;
+import com.mygdx.simplegame.screens.MenuScreen;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ public class GameWorld {
     ArrayList<Platforms> platforms = new ArrayList<Platforms>();
     ArrayList<Coins> coins = new ArrayList<Coins>();
     ArrayList<Enemies> enemies = new ArrayList<Enemies>();
+    ArrayList<Bullets> bullets = new ArrayList<Bullets>();
 
     private BitmapFont font;
     int score = 0;
@@ -35,15 +38,19 @@ public class GameWorld {
 
     public GameWorld() {
         Gdx.input.setInputProcessor(input);
+        //spawn platforms, coins and enemies
         for(int i = 0; i < 10; i++){
             platforms.add(new Platforms((int) (1920 + 2000 * Math.random()), ((int) (200 + 700 * Math.random()))));
         }
         for(int i = 0; i < maxScore; i++){
             coins.add(new Coins((int) (1920 + 10000 * Math.random()), ((int) (200 + 700 * Math.random()))));
         }
+        for(int i = 0; i < 10; i++){
+            enemies.add(new Enemies((int) (1920 + 15000 * Math.random()),55));
+        }
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        font.getData().setScale(3,3);
+        font.getData().setScale(3, 3);
     }
 
     public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
@@ -58,7 +65,11 @@ public class GameWorld {
             coin.draw(batch,shapeRenderer);
         }
         for(Enemies enemy: enemies){
-            enemy.draw(batch);
+            enemy.draw(batch,shapeRenderer);
+        }
+
+        for(Bullets bullet: bullets){
+            bullet.draw(batch);
         }
         drawScore(batch);
         drawFPS(batch);
@@ -72,16 +83,22 @@ public class GameWorld {
 
     private void drawScore(SpriteBatch batch) {
         batch.begin();
-        font.draw(batch, "Score:" + score + "/10 " , 20, 1060);
+        font.draw(batch, "Score:" + score + "/10 ", 20, 1060);
         if(score == maxScore){
             font.draw(batch,"YOU WON!",850,530);
+        }
+        if(runner.y > 1500){
+            font.draw(batch, "YOU LOST!", 850,530);
+            font.draw(batch, "Final score: " + score,850,470);
         }
         batch.end();
     }
 
     public void update(float delta) {
+
         runner.update(delta);
         backgroundLoader.update(delta);
+
         for(Platforms platform: platforms){
             platform.update(delta);
         }
@@ -93,12 +110,15 @@ public class GameWorld {
             enemy.update(delta);
         }
 
+        for(Bullets bullet: bullets){
+            bullet.update(delta);
+        }
+
         checkVy();
         RunnerPlatformCollision();
         RunnerCoinCollision();
+        RunnerEnemyCollision();
     }
-
-
 
     private void checkVy() {
         if(runner.vy < 0){
@@ -131,6 +151,20 @@ public class GameWorld {
                 coin.vx = 0;
                 coin.vy = 0;
                 score++;
+            }
+        }
+    }
+    private void RunnerEnemyCollision() {
+        for(Enemies enemy: enemies){
+            if(runner.x >= enemy.x && runner.x <= enemy.x + enemy.width &&
+                    runner.y >= enemy.y && runner.y <= enemy.y + enemy.height){
+                enemy.vx = 3;
+                enemy.vy++;
+                runner.vy = enemy.vy;
+                runner.vx = enemy.vx;
+            }
+            if(runner.y > 1520){
+                enemy.vy = -2;
             }
         }
     }

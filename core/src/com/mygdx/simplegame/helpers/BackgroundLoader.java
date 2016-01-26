@@ -3,6 +3,7 @@ package com.mygdx.simplegame.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.simplegame.gameobjects.Runner;
 
 /**
  * Created by Besten on 2016-01-24.

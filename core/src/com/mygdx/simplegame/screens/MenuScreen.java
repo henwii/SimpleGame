@@ -70,6 +70,7 @@ public class MenuScreen implements Screen {
         int touch_x = Gdx.input.getX();
         int touch_y = Gdx.input.getY();
 
+
         if(Gdx.input.isTouched()&& touch_x >= PlayButton_X && touch_x <= PlayButton_X + PlayButton_WIDTH &&
                 touch_y >= PlayButton_Y && touch_y <= PlayButton_Y + PlayButton_HEIGHT){
             count++;
@@ -79,9 +80,6 @@ public class MenuScreen implements Screen {
             gameScreen.render(delta);
         }
     }
-
-
-
 
     @Override
     public void resize(int width, int height) {
