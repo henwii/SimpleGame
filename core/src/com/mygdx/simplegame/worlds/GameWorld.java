@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.simplegame.gameobjects.Runner;
+import com.mygdx.simplegame.gameobjects.arraylists.Enemies;
 import com.mygdx.simplegame.gameobjects.arraylists.Platforms;
-import com.mygdx.simplegame.gameobjects.arraylists.PowerUps;
+import com.mygdx.simplegame.gameobjects.arraylists.Coins;
 import com.mygdx.simplegame.helpers.BackgroundLoader;
 import com.mygdx.simplegame.helpers.Input;
 
@@ -23,7 +24,8 @@ public class GameWorld {
     Input input = new Input(runner);
 
     ArrayList<Platforms> platforms = new ArrayList<Platforms>();
-    ArrayList<PowerUps> powers = new ArrayList<PowerUps>();
+    ArrayList<Coins> coins = new ArrayList<Coins>();
+    ArrayList<Enemies> enemies = new ArrayList<Enemies>();
 
     private BitmapFont font;
     int score = 0;
@@ -37,7 +39,7 @@ public class GameWorld {
             platforms.add(new Platforms((int) (1920 + 2000 * Math.random()), ((int) (200 + 700 * Math.random()))));
         }
         for(int i = 0; i < maxScore; i++){
-            powers.add(new PowerUps((int) (1920 + 10000 * Math.random()), ((int) (200 + 700 * Math.random()))));
+            coins.add(new Coins((int) (1920 + 10000 * Math.random()), ((int) (200 + 700 * Math.random()))));
         }
         font = new BitmapFont();
         font.setColor(Color.BLACK);
@@ -52,8 +54,11 @@ public class GameWorld {
         }
 
         runner.draw(batch, shapeRenderer);
-        for(PowerUps power: powers){
-            power.draw(batch);
+        for(Coins coin: coins){
+            coin.draw(batch,shapeRenderer);
+        }
+        for(Enemies enemy: enemies){
+            enemy.draw(batch);
         }
         drawScore(batch);
     }
@@ -73,8 +78,12 @@ public class GameWorld {
         for(Platforms platform: platforms){
             platform.update(delta);
         }
-        for(PowerUps power: powers){
-            power.update(delta);
+        for(Coins coin: coins){
+            coin.update(delta);
+        }
+
+        for(Enemies enemy: enemies){
+            enemy.update(delta);
         }
 
         checkVy();
@@ -106,14 +115,14 @@ public class GameWorld {
         }
     }
     private void RunnerCoinCollision() {
-        for(PowerUps power: powers){
-            if(runner.x + runner.width >= power.x && runner.x <= power.x + power.width &&
-                    runner.y + runner.height >= power.y && runner.y <= power.y + power.height){
-                power.x =  50;
-                power.y = 1400;
-                power.a = 0;
-                power.vx = 0;
-                power.vy = 0;
+        for(Coins coin: coins){
+            if(runner.x + runner.width >= coin.x && runner.x <= coin.x + coin.width &&
+                    runner.y + runner.height >= coin.y && runner.y <= coin.y + coin.height){
+                coin.x =  50;
+                coin.y = 1400;
+                coin.a = 0;
+                coin.vx = 0;
+                coin.vy = 0;
                 score++;
             }
         }
